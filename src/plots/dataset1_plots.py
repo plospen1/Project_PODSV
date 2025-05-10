@@ -5,6 +5,8 @@ from bokeh.plotting import figure
 from bokeh.models import HoverTool, ColumnDataSource
 from bokeh.models import Title
 from bokeh.palettes import Category10
+from streamlit_bokeh import streamlit_bokeh
+
 
 def create_influenza_covid_plot(pandemic_data):
     source = ColumnDataSource(pandemic_data)

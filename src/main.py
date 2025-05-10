@@ -3,6 +3,7 @@ import pandas as pd
 from bokeh.plotting import show
 from bokeh.models import ColumnDataSource
 from plots.dataset1_plots import create_influenza_covid_plot
+from streamlit_bokeh import streamlit_bokeh
 
 st.set_page_config(page_title="Pandemic in Switzerland", layout="wide")
 
@@ -65,7 +66,8 @@ with tab1:
 
     st.subheader("1. Influenza/COVID Deaths vs. Population")
     plot = create_influenza_covid_plot(data_set1)
-    st.bokeh_chart(plot, use_container_width=True)
+    streamlit_bokeh(plot, use_container_width=True, theme="streamlit", key="plot1")
+
 
 with tab2:
     st.header("Dataset 2: Influenza Dynamics")
