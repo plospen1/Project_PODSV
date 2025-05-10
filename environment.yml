@@ -16,4 +16,5 @@ dependencies:
   - seaborn
   - statsmodels
   - ydata-profiling
+  - ipywidgets
 prefix: /opt/homebrew/anaconda3/envs/PODSV_Project
