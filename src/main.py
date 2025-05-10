@@ -2,13 +2,28 @@ import streamlit as st
 import pandas as pd
 from bokeh.plotting import show
 from bokeh.models import ColumnDataSource
-from plots.dataset1_plots import create_influenza_covid_plot
+from plots.dataset1_plots import plot_excess_mortality
+from plots.dataset1_plots import pandemic_death_rate_barplot
 from streamlit_bokeh import streamlit_bokeh
+import time
 
-st.set_page_config(page_title="Pandemic in Switzerland", layout="wide")
+
+st.set_page_config(
+    page_title="Pandemic in Switzerland",
+    page_icon="🦠",
+    layout="wide",
+    initial_sidebar_state="auto",
+    menu_items={
+        'About': "# This is a project from ADLS23 students"
+    }
+)
+with st.spinner("Wait for it...", show_time=True):
+    time.sleep(1)
+st.success("Done!")
+st.button("Rerun")
 
 st.title("Lessons from the Past: Visualizing Switzerland’s Pandemic History to Prepare for the Future")
-
+st.divider()
 st.markdown("""
 ### Project Overview
 
@@ -62,12 +77,79 @@ tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland
 
 
 with tab1:
-    st.header("Dataset 1: Historical Overview")
+  
+    st.header("1 Historical Overview")
+    st.subheader("1.1 Pandemic Death Rates")
+    st.markdown("""
+    In 2020, the COVID-19 pandemic disrupted life across the globe. In Switzerland, as in many countries, society paused, reeled, and eventually adapted. 
+    As the emergency fades, a question lingers:
+    **Have we really learned from this crisis or are we doomed to forget, again?**
+    This project invites you on a journey. A journey through 130 years of Swiss pandemic history, told through data: deaths, diseases, 
+    and resilience. We visualize key insights from historical records to better understand how pandemics shaped our past—and how they can guide our future.
+    #### How Deadly Were Past Pandemics?
+    When people think of pandemics, COVID-19 is top of mind. But how does it compare to earlier pandemics?
+    To answer this, we looked at death rates from major pandemics in Switzerland from 1889 to 2020, measured per 100,000 people. 
+    The bar chart below reveals the toll of each crisis:
 
-    st.subheader("1. Influenza/COVID Deaths vs. Population")
-    plot = create_influenza_covid_plot(data_set1)
-    streamlit_bokeh(plot, use_container_width=True, theme="streamlit", key="plot1")
+    """)
+    fig1 = pandemic_death_rate_barplot(data_set1)
 
+    with st.container():
+        st.pyplot(fig1, use_container_width=False) 
+    
+    st.markdown("""
+   #### Key Findings:
+
+    - The 1918 Spanish Flu had by far the highest death rate in Swiss history—more than five times higher than COVID-19.
+    - Pandemics in 1957 (Asian Flu) and 1968 (Hong Kong Flu) caused significant but lesser mortality.
+    - The 2009 Swine Flu was comparatively mild in Switzerland.
+
+    COVID-19 was not the deadliest pandemic in Swiss history. In fact, the Spanish Flu of 1918 remains unmatched in scale. 
+    But history shows: even ‘moderate’ pandemics can leave lasting scars.            
+    """)
+
+    st.divider()
+
+    st.subheader("1.2 Population and Pandemic Deaths Over Time")
+    st.markdown("""
+    #### Time, Population, and Mortality: The Bigger Picture
+    Pandemic impact doesn’t occur in isolation, it happens in the context of a growing society. To understand the broader picture, we plotted pandemic death rates alongside population growth over more than a century.
+    
+    **Tip:** Hover over the lines in the chart to explore each year. You’ll see how many people lived in Switzerland, and how many died from influenza or COVID-19 during that time.    
+    """)
+    
+    st.markdown(""" *Here will be a plot* """)
+
+    st.markdown("""
+        “*A growing population does not automatically mean higher mortality if health systems adapt. Still, sharp spikes in 1918 and 2020 show that even modern nations remain vulnerable when overwhelmed.*”
+
+    ### Key Findings:
+    - Switzerland's population grew from under 3 million in 1880 to over 8 million by 2022.
+    - Despite this growth, pandemic death rates spiked dramatically only in select years—especially in 1918 and 2020.
+    - Medical and public health advances appear to have helped reduce death rates in later pandemics.
+    """)
+    
+    st.divider()
+
+    st.subheader("1.3 Excess Mortality Over Time")
+    st.markdown("""
+    #### Excess Mortality Over Time 
+    To understand the true cost of pandemics, we looked beyond reported causes of death. Sometimes, people die because of a pandemic, but not from the disease itself—indirect effects like delayed treatments, overwhelmed hospitals, or social disruptions can all lead to excess deaths.
+    This is where excess mortality becomes essential. It measures how many people died above or below what we would statistically expect in a normal year, based on historical trends.
+                
+    **How to read the graph:**
+
+    - Each dot represents a year between 1880 and 2022.
+    - Red dots mean more people died than expected → positive excess mortality. This often occurs during severe flu seasons, pandemics, heatwaves, or crises.
+    - Green dots mean fewer people died than expected → negative excess mortality. This can reflect milder flu seasons, improved healthcare, or social measures like lockdowns reducing accidents.
+    - The gray line shows the trend over time.
+    - Vertical lines mark known pandemic years like 1918, 1957, and 2020.
+    - The horizontal dashed line at 0% represents the baseline: deaths were as expected that year.            
+    """)
+
+    fig2 = plot_excess_mortality(data_set1)
+    with st.container():
+        streamlit_bokeh(fig2, use_container_width=True, key="plot1")
 
 with tab2:
     st.header("Dataset 2: Influenza Dynamics")
