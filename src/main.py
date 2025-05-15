@@ -4,8 +4,11 @@ from bokeh.plotting import show
 from bokeh.models import ColumnDataSource
 from plots.dataset1_plots import plot_excess_mortality
 from plots.dataset1_plots import pandemic_death_rate_barplot
+from plots.dataset3_plots import create_bokeh_comparison_plot
+from plots.utils import preprocess_data_set3
 from streamlit_bokeh import streamlit_bokeh
 import time
+
 
 
 st.set_page_config(
@@ -71,6 +74,7 @@ data_set2_mortality = pd.read_excel("Data/2_All_cantons_1953-1958_Mortality.xlsx
 data_set2_incidence_weekly = pd.read_excel("Data/2_Data_cantons_incidence_weekly_56_58_NEW.xlsx")
 data_set2_population = pd.read_excel("Data/2_Population_cantons.xlsx")
 data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xlsx")
+data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
 
 # Tabs erstellen
 tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Infectious disease"])
@@ -92,10 +96,10 @@ with tab1:
     The bar chart below reveals the toll of each crisis:
 
     """)
-    fig1 = pandemic_death_rate_barplot(data_set1)
+    fig1_1 = pandemic_death_rate_barplot(data_set1)
 
     with st.container():
-        st.pyplot(fig1, use_container_width=False) 
+        st.pyplot(fig1_1, use_container_width=False) 
     
     st.markdown("""
    #### Key Findings:
@@ -147,9 +151,9 @@ with tab1:
     - The horizontal dashed line at 0% represents the baseline: deaths were as expected that year.            
     """)
 
-    fig2 = plot_excess_mortality(data_set1)
+    fig1_2 = plot_excess_mortality(data_set1)
     with st.container():
-        streamlit_bokeh(fig2, use_container_width=True, key="plot1")
+        streamlit_bokeh(fig1_2, use_container_width=True, key="plot2")
 
 with tab2:
     st.header("Dataset 2: Influenza Dynamics")
@@ -161,4 +165,9 @@ with tab3:
     st.header("Dataset 3: Causes of Death Over Time")
     
     st.subheader("1. Deaths by Cause Over the Years")
-  
+
+
+    fig3_2 = create_bokeh_comparison_plot(data_set3_cleaned)
+    with st.container():
+        streamlit_bokeh(fig3_2, use_container_width=True, key="plot3_2")
+
