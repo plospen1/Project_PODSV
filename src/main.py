@@ -3,9 +3,12 @@ import pandas as pd
 from bokeh.plotting import show
 from bokeh.models import ColumnDataSource
 from plots.dataset1_plots import plot_excess_mortality
+from plots.dataset1_plots import plot_mortality_vs_population
+from plots.dataset1_plots import plot_covid_death
 from plots.dataset1_plots import pandemic_death_rate_barplot
 from plots.dataset3_plots import create_bokeh_comparison_plot
 from plots.utils import preprocess_data_set3
+
 from streamlit_bokeh import streamlit_bokeh
 import time
 
@@ -40,17 +43,6 @@ We explore:
 - Geographic distribution and regional impacts across Swiss cantons
 - Causes of death and shifts in epidemiology over time
 
-Our **key message**:  
-> _By visualizing historical data on cases, mortality, and geographic spread, we can gain valuable insights into how pandemics evolved and how society responded. Learning from the past is key to protecting the future._
-
----
-
-### Target Audience
-
-This data story is designed for:
-- **The general public**, curious about health and history
-
-
 
 ### Data & Visualizations
 
@@ -75,6 +67,7 @@ data_set2_incidence_weekly = pd.read_excel("Data/2_Data_cantons_incidence_weekly
 data_set2_population = pd.read_excel("Data/2_Population_cantons.xlsx")
 data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xlsx")
 data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
+data_covid = pd.read_csv("Data/full_data.csv")
 
 # Tabs erstellen
 tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death"])
@@ -122,16 +115,32 @@ with tab1:
     **Tip:** Hover over the lines in the chart to explore each year. You’ll see how many people lived in Switzerland, and how many died from influenza or COVID-19 during that time.    
     """)
     
-    st.markdown(""" *Here will be a plot* """)
+    fig1_2 = plot_mortality_vs_population(data_set1)
+    with st.container():
+        streamlit_bokeh(fig1_2, use_container_width=True, key="plot2")
 
     st.markdown("""
         “*A growing population does not automatically mean higher mortality if health systems adapt. Still, sharp spikes in 1918 and 2020 show that even modern nations remain vulnerable when overwhelmed.*”
 
-    ### Key Findings:
+    #### Key Findings:
     - Switzerland's population grew from under 3 million in 1880 to over 8 million by 2022.
     - Despite this growth, pandemic death rates spiked dramatically only in select years—especially in 1918 and 2020.
     - Medical and public health advances appear to have helped reduce death rates in later pandemics.
     """)
+
+    st.markdown("""
+    ##### **Of particular interest to most: COVID-19.** 
+
+    We can probably draw the most important insights from COVID-19. 
+    That is why it is also presented here individually and in more detail. The chart shows how many deaths from COVID-19 there have been in Switzerland each year.
+    
+    """)
+
+    fig1_3 = plot_covid_death(data_set1)
+
+    with st.container():
+        st.pyplot(fig1_3, use_container_width=False) 
+    
     
     st.divider()
 
@@ -139,6 +148,7 @@ with tab1:
     st.markdown("""
     #### Excess Mortality Over Time 
     To understand the true cost of pandemics, we looked beyond reported causes of death. Sometimes, people die because of a pandemic, but not from the disease itself—indirect effects like delayed treatments, overwhelmed hospitals, or social disruptions can all lead to excess deaths.
+    
     This is where excess mortality becomes essential. It measures how many people died above or below what we would statistically expect in a normal year, based on historical trends.
                 
     **How to read the graph:**
@@ -151,9 +161,9 @@ with tab1:
     - The horizontal dashed line at 0% represents the baseline: deaths were as expected that year.            
     """)
 
-    fig1_2 = plot_excess_mortality(data_set1)
+    fig1_4 = plot_excess_mortality(data_set1)
     with st.container():
-        streamlit_bokeh(fig1_2, use_container_width=True, key="plot2")
+        streamlit_bokeh(fig1_4, use_container_width=True, key="plot4")
 
 with tab2:
     st.header("Dataset 2: Influenza Dynamics")
