@@ -77,7 +77,7 @@ data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xls
 data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
 
 # Tabs erstellen
-tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Infectious disease"])
+tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death"])
 
 
 with tab1:
