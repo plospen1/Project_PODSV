@@ -112,10 +112,10 @@ def plot_year_comparison_barplot(df):
                x_axis_label="Number of Deaths", toolbar_location=None)
 
     p.hbar(y=dodge('Cause', -0.2, range=p.y_range), right='Year A', height=0.35,
-           source=source, color=PuBu[6][1], alpha=0.8, legend_label=str(year_a))
+           source=source, color=PuBu[6][1], alpha=0.8, legend_label= 'Year A')
 
     p.hbar(y=dodge('Cause',  0.2, range=p.y_range), right='Year B', height=0.35,
-           source=source, color=BuPu[7][2], alpha=0.8, legend_label=str(year_b))
+           source=source, color=BuPu[7][2], alpha=0.8, legend_label='Year B')
     p.legend.location = "bottom_right"
     p.legend.click_policy = "hide"
 
