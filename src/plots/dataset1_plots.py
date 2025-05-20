@@ -273,7 +273,7 @@ def plot_excess_mortality(data_set1, pandemic_years=None):
     # Colored points
     p.scatter(
         'Jahr', 'Überasterblichkeit_Alles', source=df,
-        size=8, color='color', line_color='black', line_width=1
+        size=8, line_color='black', line_width=1
     )
 
     # Horizontal line at 0%

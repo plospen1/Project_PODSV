@@ -116,6 +116,8 @@ def plot_year_comparison_barplot(df):
 
     p.hbar(y=dodge('Cause',  0.2, range=p.y_range), right='Year B', height=0.35,
            source=source, color=BuPu[7][2], alpha=0.8, legend_label=str(year_b))
+    p.legend.location = "bottom_right"
+    p.legend.click_policy = "hide"
 
     select_a = Select(title="Select Year A", value=str(year_a), options=[str(y) for y in years])
     select_b = Select(title="Select Year B", value=str(year_b), options=[str(y) for y in years])
