@@ -6,8 +6,12 @@ from plots.dataset1_plots import plot_excess_mortality
 from plots.dataset1_plots import plot_mortality_vs_population
 from plots.dataset1_plots import plot_covid_death
 from plots.dataset1_plots import pandemic_death_rate_barplot
-from plots.dataset3_plots import create_bokeh_comparison_plot
-from plots.utils import preprocess_data_set3
+from plots.dataset3_plots import (
+    infectious_disease_lineplot,
+    plot_major_causes_over_time,
+    plot_year_comparison_barplot
+)
+
 
 from streamlit_bokeh import streamlit_bokeh
 import time
@@ -68,6 +72,8 @@ data_set2_population = pd.read_excel("Data/2_Population_cantons.xlsx")
 data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xlsx")
 data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
 data_covid = pd.read_csv("Data/full_data.csv")
+data = pd.read_csv("Data/data_set3_cleaned.csv")
+
 
 # Tabs erstellen
 tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death"])
@@ -136,7 +142,8 @@ with tab1:
     
     """)
 
-    fig1_3 = plot_covid_death(data_set1)
+    fig1_3 = plot_covid_death(data_covid)
+
 
     with st.container():
         st.pyplot(fig1_3, use_container_width=False) 
@@ -174,10 +181,23 @@ with tab2:
 with tab3:
     st.header("Dataset 3: Causes of Death Over Time")
     
-    st.subheader("1. Deaths by Cause Over the Years")
+    st.subheader("1. Infectious Disease Subgroups Over Time")
+    fig3_1 = infectious_disease_lineplot(data)
+    with st.container():
+        streamlit_bokeh(fig3_1, use_container_width=True, key="plot3_1" )
+    
+    st.divider()
 
-
-    fig3_2 = create_bokeh_comparison_plot(data_set3_cleaned)
+    st.subheader("2. Major Death Causes Over Time")
+    fig3_2 = plot_major_causes_over_time(data)
     with st.container():
         streamlit_bokeh(fig3_2, use_container_width=True, key="plot3_2")
+    
+    st.divider()
+
+    st.subheader("3. Year-over-Year Comparison of Death Causes")
+    fig3_3 = plot_year_comparison_barplot(data)
+    with st.container():
+        streamlit_bokeh(fig3_3, use_container_width=True, key="plot3_3")
+
 
