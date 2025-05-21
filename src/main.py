@@ -9,7 +9,7 @@ from plots.dataset1_plots import pandemic_death_rate_barplot
 from plots.dataset3_plots import (
     infectious_disease_lineplot,
     plot_major_causes_over_time,
-    plot_year_comparison_barplot
+    plot_year_comparison_barplot,
 )
 
 
@@ -180,24 +180,23 @@ with tab2:
 
 with tab3:
     st.header("Dataset 3: Causes of Death Over Time")
-    
-    st.subheader("1. Infectious Disease Subgroups Over Time")
-    fig3_1 = infectious_disease_lineplot(data)
+
+    st.subheader("1. Major Death Causes Over Time")
+    fig3_1 = plot_major_causes_over_time(data)
     with st.container():
-        streamlit_bokeh(fig3_1, use_container_width=True, key="plot3_1" )
+        streamlit_bokeh(fig3_1, use_container_width=True, key="plot3_1")
     
     st.divider()
 
-    st.subheader("2. Major Death Causes Over Time")
-    fig3_2 = plot_major_causes_over_time(data)
+    st.subheader("2. Year-over-Year Comparison of Death Causes")
+    fig3_2 = plot_year_comparison_barplot(data)
     with st.container():
         streamlit_bokeh(fig3_2, use_container_width=True, key="plot3_2")
-    
+
     st.divider()
-
-    st.subheader("3. Year-over-Year Comparison of Death Causes")
-    fig3_3 = plot_year_comparison_barplot(data)
+    
+    st.subheader("3. Infectious Disease Subgroups Over Time")
+    fig3_3 = infectious_disease_lineplot(data)
     with st.container():
-        streamlit_bokeh(fig3_3, use_container_width=True, key="plot3_3")
-
+        streamlit_bokeh(fig3_3, use_container_width=True, key="plot3_3" )
 
