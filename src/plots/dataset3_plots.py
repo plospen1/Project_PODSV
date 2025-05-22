@@ -246,3 +246,65 @@ def infectious_disease_lineplot(dataframe):
     toggle.js_on_change("active", callback)
 
     return column(toggle, plot_linear, plot_log)
+
+
+import streamlit as st
+import pandas as pd
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.palettes import PuBu, BuPu
+from bokeh.embed import components
+
+def plot_infectious_diseases(data):
+    # Farben definieren
+    colors = [PuBu[7][0], BuPu[6][0], PuBu[7][3], PuBu[9][0], BuPu[5][2], BuPu[3][0], BuPu[7][2]]
+
+    # Spalten filtern
+    data = data.loc[:, ~data.columns.duplicated()]
+    infectious_cols = [
+        col for col in data.columns
+        if col.startswith("Infektions-") and
+        any(k in col.lower() for k in ["pocken", "masern", "schar", "typhus", "diph", "keuch"]) and
+        not col.strip().endswith("Total")
+    ]
+
+    data["Year"] = pd.to_numeric(data["Jahr"], errors="coerce")
+    df = data[["Year"] + infectious_cols].dropna()
+    df[infectious_cols] = df[infectious_cols].apply(pd.to_numeric, errors='coerce').clip(lower=0)
+    df["Total_Infectious"] = df[infectious_cols].sum(axis=1)
+
+    source = ColumnDataSource(df)
+    p = figure(title="Infectious Diseases in Switzerland (1876–2002)",
+               x_axis_label="Year", y_axis_label="Deaths",
+               width=900, height=500, tools="")
+
+    label_map = {
+        "Schar-": "Scarlet fever",
+        "Pocken": "Smallpox",
+        "Masern": "Measles",
+        "Typhus,": "Typhus",
+        "Diph-": "Diphtheria",
+        "Keuch-": "Whooping cough"
+    }
+
+    # Linien zeichnen
+    for i, col in enumerate(infectious_cols):
+        label = col.split('|')[-1].strip()
+        for short, full in label_map.items():
+            label = label.replace(short, full)
+        p.line(x="Year", y=col, source=source, line_width=2, color=colors[i % len(colors)], legend_label=label)
+
+    # Total-Linie + Hover
+    total_line = p.line(x="Year", y="Total_Infectious", source=source, line_width=3,
+                        color="darkgray", alpha=0.8, legend_label="Total")
+
+    tooltips = [("Year", "@Year")] + [(label.replace(short, full), f"@{{{col}}}")
+               for col in infectious_cols
+               for short, full in label_map.items()
+               if short in (label := col.split('|')[-1].strip())]
+
+    p.add_tools(HoverTool(tooltips=tooltips, mode='vline', renderers=[total_line]))
+    p.legend.location = "top_right"
+    p.legend.click_policy = "hide"
+
+    return p

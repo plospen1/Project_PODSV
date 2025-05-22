@@ -10,6 +10,7 @@ from plots.dataset3_plots import (
     infectious_disease_lineplot,
     plot_major_causes_over_time,
     plot_year_comparison_barplot,
+    plot_infectious_diseases
 )
 
 
@@ -200,3 +201,8 @@ with tab3:
     with st.container():
         streamlit_bokeh(fig3_3, use_container_width=True, key="plot3_3" )
 
+    st.divider()
+    
+    fig3_4 = plot_infectious_diseases(data)
+    with st.container():
+        streamlit_bokeh(fig3_4, use_container_width=True, key="plot3_4" )
