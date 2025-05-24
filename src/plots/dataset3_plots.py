@@ -5,7 +5,11 @@ from bokeh.layouts import column, row
 from bokeh.transform import dodge
 from bokeh.palettes import PuBu, BuPu
 from bokeh.plotting import figure, show
-
+import streamlit as st
+import streamlit as st
+import streamlit.components.v1 as components
+from bokeh.embed import file_html
+from bokeh.resources import CDN
 
 def plot_major_causes_over_time(df):
     df = df.copy()
@@ -160,151 +164,63 @@ def plot_year_comparison_barplot(df):
     return column(row(select_a, select_b), p)
 
 
-
-def infectious_disease_lineplot(dataframe):
-    df = dataframe.copy()
-    df = df.loc[:, ~df.columns.duplicated()]
-
+def plot_infectious_diseases(infectdata: pd.DataFrame):
     infectious_cols = [
-        col for col in df.columns
-        if col.startswith("Infektions-") and
-        any(kw in col.lower() for kw in ["pocken", "masern", "schar", "typhus", "diph", "keuch"]) and
-        not col.strip().endswith("Total")
+        "Smallpox", "Scarlet_Fever", "Measles",
+        "Typhoid_Paratyphoid", "Diphtheria", "Whooping_Cough"
     ]
 
-    df['Year'] = pd.to_numeric(df['Jahr'], errors='coerce')
+    label_map = {
+        "Smallpox": "Smallpox",
+        "Scarlet_Fever": "Scarlet Fever",
+        "Measles": "Measles",
+        "Typhoid_Paratyphoid": "Typhoid & Paratyphoid",
+        "Diphtheria": "Diphtheria",
+        "Whooping_Cough": "Whooping Cough"
+    }
+
+    df = infectdata.copy()
+    df = df.loc[:, ~df.columns.duplicated()]
+    df['Year'] = pd.to_numeric(df['Year'], errors='coerce')
     df_subset = df[['Year'] + infectious_cols].dropna()
 
     for col in infectious_cols:
         df_subset[col] = pd.to_numeric(df_subset[col], errors='coerce')
-
     df_subset[infectious_cols] = df_subset[infectious_cols].clip(lower=0)
     df_subset['Total_Infectious'] = df_subset[infectious_cols].sum(axis=1)
 
     source = ColumnDataSource(df_subset)
+    colors = [PuBu[7][0], BuPu[6][0], PuBu[7][3], PuBu[9][0], BuPu[5][2], BuPu[3][0]]
 
-    colors = [PuBu[7][0], BuPu[6][0], PuBu[7][3], PuBu[9][0], BuPu[5][2], BuPu[3][0], BuPu[7][2]]
-    label_map = {
-        "Schar-": "Scarlet fever",
-        "Pocken": "Smallpox",
-        "Masern": "Measles",
-        "Typhus,": "Typhus",
-        "Diph-": "Diphtheria",
-        "Keuch-": "Whooping cough"
-    }
+    scale = st.radio("Y-Axis Scale", ["Linear", "Logarithmic"], index=0)
+    y_axis_type = "linear" if scale == "Linear" else "log"
 
-    def create_plot(y_axis_type="linear"):
-        p = figure(
-            title="Infectious Disease Subgroups in Switzerland (1876–2002)",
-            x_axis_label="Year", y_axis_label="Deaths",
-            y_axis_type=y_axis_type,
-            width=900, height=500, tools=""
-        )
+    p = figure(
+        title="Infectious Disease Subgroups in Switzerland (1876–2002)",
+        x_axis_label="Year",
+        y_axis_label="Deaths",
+        y_axis_type=y_axis_type,
+        width=950,
+        height=550,
+        tools=""
+    )
 
-        for i, col in enumerate(infectious_cols):
-            label = col.split('|')[-1].strip()
-            for short, full in label_map.items():
-                label = label.replace(short, full)
-
-            p.line(x='Year', y=col, source=source,
-                   line_width=2, color=colors[i % len(colors)],
-                   legend_label=label)
-
-        total_line = p.line(x='Year', y='Total_Infectious', source=source,
-                            line_width=3, color='grey',
-                            legend_label='Total')
-
-        tooltip_items = [("Year", "@Year")]
-        for col in infectious_cols:
-            label = col.split('|')[-1].strip()
-            for short, full in label_map.items():
-                label = label.replace(short, full)
-            tooltip_items.append((label, f"@{{{col}}}"))
-
-        hover = HoverTool(tooltips=tooltip_items, mode='vline', renderers=[total_line])
-        p.add_tools(hover)
-
-        p.legend.location = "top_right"
-        p.legend.click_policy = "hide"
-
-        return p
-
-    plot_linear = create_plot("linear")
-    plot_log = create_plot("log")
-    plot_log.visible = False
-
-    toggle = RadioButtonGroup(labels=["Linear", "Logarithmic"], active=0)
-    callback = CustomJS(args=dict(p1=plot_linear, p2=plot_log), code="""
-        if (this.active === 0) {
-            p1.visible = true;
-            p2.visible = false;
-        } else {
-            p1.visible = false;
-            p2.visible = true;
-        }
-    """)
-    toggle.js_on_change("active", callback)
-
-    return column(toggle, plot_linear, plot_log)
-
-
-import streamlit as st
-import pandas as pd
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.palettes import PuBu, BuPu
-from bokeh.embed import components
-
-def plot_infectious_diseases(data):
-    # Farben definieren
-    colors = [PuBu[7][0], BuPu[6][0], PuBu[7][3], PuBu[9][0], BuPu[5][2], BuPu[3][0], BuPu[7][2]]
-
-    # Spalten filtern
-    data = data.loc[:, ~data.columns.duplicated()]
-    infectious_cols = [
-        col for col in data.columns
-        if col.startswith("Infektions-") and
-        any(k in col.lower() for k in ["pocken", "masern", "schar", "typhus", "diph", "keuch"]) and
-        not col.strip().endswith("Total")
-    ]
-
-    data["Year"] = pd.to_numeric(data["Jahr"], errors="coerce")
-    df = data[["Year"] + infectious_cols].dropna()
-    df[infectious_cols] = df[infectious_cols].apply(pd.to_numeric, errors='coerce').clip(lower=0)
-    df["Total_Infectious"] = df[infectious_cols].sum(axis=1)
-
-    source = ColumnDataSource(df)
-    p = figure(title="Infectious Diseases in Switzerland (1876–2002)",
-               x_axis_label="Year", y_axis_label="Deaths",
-               width=900, height=500, tools="")
-
-    label_map = {
-        "Schar-": "Scarlet fever",
-        "Pocken": "Smallpox",
-        "Masern": "Measles",
-        "Typhus,": "Typhus",
-        "Diph-": "Diphtheria",
-        "Keuch-": "Whooping cough"
-    }
-
-    # Linien zeichnen
     for i, col in enumerate(infectious_cols):
-        label = col.split('|')[-1].strip()
-        for short, full in label_map.items():
-            label = label.replace(short, full)
-        p.line(x="Year", y=col, source=source, line_width=2, color=colors[i % len(colors)], legend_label=label)
+        label = label_map.get(col, col)
+        p.line(x="Year", y=col, source=source, line_width=2,
+               color=colors[i % len(colors)], legend_label=label)
 
-    # Total-Linie + Hover
-    total_line = p.line(x="Year", y="Total_Infectious", source=source, line_width=3,
-                        color="darkgray", alpha=0.8, legend_label="Total")
+    p.line(x="Year", y="Total_Infectious", source=source,
+           line_width=3, color="gray", legend_label="Total")
 
-    tooltips = [("Year", "@Year")] + [(label.replace(short, full), f"@{{{col}}}")
-               for col in infectious_cols
-               for short, full in label_map.items()
-               if short in (label := col.split('|')[-1].strip())]
-
-    p.add_tools(HoverTool(tooltips=tooltips, mode='vline', renderers=[total_line]))
+    hover = HoverTool(
+        tooltips=[("Year", "@Year")] + [(label_map.get(col, col), f"@{{{col}}}") for col in infectious_cols],
+        mode="vline"
+    )
+    p.add_tools(hover)
     p.legend.location = "top_right"
     p.legend.click_policy = "hide"
 
-    return p
+    # 📌 HTML-Export (statt st.bokeh_chart)
+    html = file_html(p, CDN, "Infectious Diseases")
+    components.html(html, height=600, scrolling=True)

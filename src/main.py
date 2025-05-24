@@ -7,7 +7,6 @@ from plots.dataset1_plots import plot_mortality_vs_population
 from plots.dataset1_plots import plot_covid_death
 from plots.dataset1_plots import pandemic_death_rate_barplot
 from plots.dataset3_plots import (
-    infectious_disease_lineplot,
     plot_major_causes_over_time,
     plot_year_comparison_barplot,
     plot_infectious_diseases
@@ -74,6 +73,7 @@ data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xls
 data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
 data_covid = pd.read_csv("Data/full_data.csv")
 data = pd.read_csv("Data/data_set3_cleaned.csv")
+infectdata = pd.read_csv("Data/cleaned_infectious_diseases.csv")
 
 
 # Tabs erstellen
@@ -197,12 +197,6 @@ with tab3:
     st.divider()
     
     st.subheader("3. Infectious Disease Subgroups Over Time")
-    fig3_3 = infectious_disease_lineplot(data)
-    with st.container():
-        streamlit_bokeh(fig3_3, use_container_width=True, key="plot3_3" )
-
-    st.divider()
-    
-    fig3_4 = plot_infectious_diseases(data)
+    fig3_4 = plot_infectious_diseases(infectdata)
     with st.container():
         streamlit_bokeh(fig3_4, use_container_width=True, key="plot3_4" )
