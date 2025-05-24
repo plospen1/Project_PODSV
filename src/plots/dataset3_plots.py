@@ -217,10 +217,8 @@ def plot_infectious_diseases(infectdata: pd.DataFrame):
         tooltips=[("Year", "@Year")] + [(label_map.get(col, col), f"@{{{col}}}") for col in infectious_cols],
         mode="vline"
     )
-    p.add_tools(hover)
     p.legend.location = "top_right"
     p.legend.click_policy = "hide"
 
-    # 📌 HTML-Export (statt st.bokeh_chart)
-    html = file_html(p, CDN, "Infectious Diseases")
-    components.html(html, height=600, scrolling=True)
+    return p
+    
