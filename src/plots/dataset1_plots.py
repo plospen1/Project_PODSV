@@ -62,11 +62,10 @@ def pandemic_death_rate_barplot(data_set1):
     # Add value labels on top of bars
     for bar in bars:
         height = bar.get_height()
-    if height > 0:
-        ax.annotate(f'{height:.1f}', 
-                   xy=(bar.get_x() + bar.get_width() / 2, height),
-                   xytext=(0, 3), textcoords="offset points", 
-                   ha='center', va='bottom')
+        if height > 0:  
+            ax.annotate(f'{height:.1f}', 
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    ha='center', va='bottom')
 
     # Füge eine Legende hinzu
     from matplotlib.patches import Patch
@@ -211,7 +210,7 @@ def plot_covid_death(data_covid):
 
     ax.set_title('COVID-19 New Deaths in Switzerland by Year', fontsize=20)
     ax.set_xlabel('Year', fontsize=12)
-    ax.set_ylabel('Daily New Deaths', fontsize=12)
+    ax.set_ylabel('New Deaths', fontsize=12)
 
     # Format x-axis to use integers only (no decimal places)
     ax.xaxis.set_major_locator(plt.matplotlib.ticker.MaxNLocator(integer=True))
