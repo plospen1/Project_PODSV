@@ -21,6 +21,19 @@ from plots.dataset2_plots import (
 
 from streamlit_bokeh import streamlit_bokeh
 import time
+from utils import load_all_data
+
+data = load_all_data()
+
+
+data_set1 = data["data_set1"]  
+data_set2_mortality = data["data_set2_mortality"]  
+data_set2_incidence_weekly = data["data_set2_incidence_weekly"] 
+data_set2_population = data["data_set2_population"]  
+data_set3 = data["data_set3"] 
+data_set3_cleaned = data["data_set3_cleaned"]  
+data_covid = data["data_covid"]  
+dataset3_infectdata = data["dataset3_infectdata"]  
 
 
 
@@ -70,18 +83,7 @@ We use three core datasets:
 
 
 
-# Daten einlesen
-data_set1 = pd.read_excel("Data/1_History_Pandemics.xlsx")
-data_set2_mortality = pd.read_excel("Data/2_All_cantons_1953-1958_Mortality.xlsx")
-data_set2_incidence_weekly = pd.read_excel("Data/2_Data_cantons_incidence_weekly_56_58_NEW.xlsx")
-data_set2_population = pd.read_excel("Data/2_Population_cantons.xlsx")
-data_set3 = pd.read_excel("Data/3_Todesursachen Schweiz ohne Alter 1876-2002.xlsx")
-data_set3_cleaned = pd.read_csv("Data/data_set3_cleaned.csv")
-data_covid = pd.read_csv("Data/full_data.csv")
-dataset3_infectdata = pd.read_csv("Data/dataset_3_cleaned_infectious_diseases.csv")
-
-
-# Tabs erstellen
+# TABS
 tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death"])
 
 
@@ -100,9 +102,7 @@ with tab1:
 
     """)
     fig1_1 = pandemic_death_rate_barplot(data_set1)
-
-    with st.container():
-        st.pyplot(fig1_1, use_container_width=False) 
+    st.image("src/plots/save_figures/pandemic_death_rate_barplot.png", width=1000)
     
     st.markdown("""
    #### Key Findings:
@@ -143,8 +143,7 @@ with tab1:
     """)
 
     fig1_3 = plot_covid_death(data_covid)
-    with st.container():
-        st.pyplot(fig1_3, use_container_width=False) 
+    st.image("src/plots/save_figures/plot_covid_death.png", width= 1000)
     
     
     st.divider()
