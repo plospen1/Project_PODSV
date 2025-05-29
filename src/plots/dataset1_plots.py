@@ -103,7 +103,7 @@ def plot_mortality_vs_population(data_set1):
 
     p = figure(
         title="Pandemic Mortality vs. Population Growth (1889-2020)",
-        height=600,
+        height=550,
         width=950,
         x_axis_label="Year",
         y_axis_label="Population",
@@ -176,13 +176,15 @@ def plot_mortality_vs_population(data_set1):
     ]
     p.add_tools(*tools)
 
-    # Legende und Styling
+    # Legend and styling
     p.legend.location = "top_left"
     p.legend.click_policy = "hide"
     p.legend.background_fill_alpha = 0.7
 
     p.title.text_font_size = '14pt'
     p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     p.grid.grid_line_alpha = 0.3
 
@@ -266,7 +268,7 @@ def plot_excess_mortality(data_set1, pandemic_years=None):
     # Create the figure
     p = figure(
         title="Excess Mortality in Switzerland (1880–2022)",
-        height=600,
+        height=550,
         width=950,
         x_axis_label="Year",
         y_axis_label="Excess Mortality (%)",

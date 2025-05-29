@@ -102,7 +102,7 @@ with tab1:
 
     """)
     fig1_1 = pandemic_death_rate_barplot(data_set1)
-    st.image("src/plots/save_figures/pandemic_death_rate_barplot.png", width=1000)
+    st.image("src/plots/save_figures/pandemic_death_rate_barplot.png", width=950)
     
     st.markdown("""
    #### Key Findings:
@@ -125,8 +125,8 @@ with tab1:
     """)
     
     fig1_2 = plot_mortality_vs_population(data_set1)
-    with st.container():
-        streamlit_bokeh(fig1_2, use_container_width=True, key="plot2")
+    
+    streamlit_bokeh(fig1_2, use_container_width=False, key="plot2")
 
     st.markdown("""
     >“A growing population does not automatically mean higher mortality—if health systems adapt. Still, sharp spikes in 1918 and 2020 show that even modern nations remain vulnerable when overwhelmed.”
@@ -143,7 +143,7 @@ with tab1:
     """)
 
     fig1_3 = plot_covid_death(data_covid)
-    st.image("src/plots/save_figures/plot_covid_death.png", width= 1000)
+    st.image("src/plots/save_figures/plot_covid_death.png", width= 950)
     
     
     st.divider()
@@ -171,8 +171,7 @@ with tab1:
     """)
 
     fig1_4 = plot_excess_mortality(data_set1)
-    with st.container():
-        streamlit_bokeh(fig1_4, use_container_width=True, key="plot4")
+    streamlit_bokeh(fig1_4, use_container_width=False, key="plot4")
 
 
 
@@ -189,7 +188,7 @@ with tab2:
     """)
 
     fig2_1_1 = plot_deaths_comparison(data_set2_mortality)
-    streamlit_bokeh(fig2_1_1, use_container_width=True, key="plot2_1_1")
+    streamlit_bokeh(fig2_1_1, use_container_width=False, key="plot2_1_1")
 
     st.markdown("""
     Key takeaways:
@@ -214,7 +213,7 @@ with tab2:
     """)
 
     fig2_1_2 = plot_influenza_share(data_set2_mortality)
-    streamlit_bokeh(fig2_1_2, use_container_width=True, key="plot2_1_2")
+    streamlit_bokeh(fig2_1_2, use_container_width=False, key="plot2_1_2")
 
     st.markdown("""
     - The line represents the flu death percentage each month — how much of all deaths that month were caused by influenza. 
@@ -247,14 +246,14 @@ with tab2:
     """)
 
     fig2_2_1 = plot_weekly_cases(data_set2_incidence_weekly)
-    streamlit_bokeh(fig2_2_1, use_container_width=True, key="plot2_2_1")
+    streamlit_bokeh(fig2_2_1, use_container_width=False, key="plot2_2_1")
 
     st.markdown("""
     The final months of 1957 show a dramatic spike in reported flu cases — far higher than any previous year in this dataset. It clearly marks the arrival and spread of the Asian Flu.
     """)
 
     fig2_2_2 = plot_monthly_cases_and_deaths(data_set2_incidence_weekly, data_set2_mortality)
-    streamlit_bokeh(fig2_2_2, use_container_width=True, key="plot2_2_2")
+    streamlit_bokeh(fig2_2_2, use_container_width=False, key="plot2_2_2")
 
     st.markdown("""
     This comparison makes the gap visible: while infections exploded, deaths remained relatively moderate. The purple dots (deaths) stay low, even during the peak of the blue line (cases).
@@ -322,7 +321,7 @@ with tab3:
 
     fig3_1 = plot_major_causes_over_time(data_set3_cleaned)
     with st.container():
-        streamlit_bokeh(fig3_1, use_container_width=True, key="plot3_1")
+        streamlit_bokeh(fig3_1, use_container_width=False, key="plot3_1")
     
     st.divider()
 
@@ -383,7 +382,7 @@ with tab3:
 
     fig3_4 = plot_infectious_diseases(dataset3_infectdata)
     with st.container():
-        streamlit_bokeh(fig3_4, use_container_width=True, key="plot3_4" )
+        streamlit_bokeh(fig3_4, use_container_width=False, key="plot3_4" )
 
     st.markdown("""
         #### **Conclusion: Remembering, Understanding, Preparing**

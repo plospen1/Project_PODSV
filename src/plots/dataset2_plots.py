@@ -5,6 +5,11 @@ from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, HoverTool, BoxAnnotation, Span, Label
 from bokeh.palettes import BuPu, PuBu
 from bokeh.models.formatters import DatetimeTickFormatter, NumeralTickFormatter
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models.formatters import DatetimeTickFormatter, NumeralTickFormatter
+from bokeh.palettes import PuBu, BuPu
+import pandas as pd
 
 
 def plot_deaths_comparison(data_set2_mortality):
@@ -55,6 +60,12 @@ def plot_deaths_comparison(data_set2_mortality):
 
     p.legend.location = "top_left"
     p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
+    
     return p
 
 
@@ -82,7 +93,7 @@ def plot_influenza_share(data_set2_mortality):
     source = ColumnDataSource(comparison_df)
 
     p = figure(title="Influenza Deaths as Share of Total Deaths (1953–1958)",
-               x_axis_type="datetime", width=950, height=500,
+               x_axis_type="datetime", width=950, height=550,
                x_axis_label="Date", y_axis_label="Influenza Share (%)",
                tools="pan,wheel_zoom,box_zoom,reset,hover,save")
 
@@ -108,6 +119,7 @@ def plot_influenza_share(data_set2_mortality):
 
     return p
 
+
 def plot_weekly_cases(data_set2_incidence_weekly):
     weekly_ch = data_set2_incidence_weekly[data_set2_incidence_weekly["Parameter"] == "Cases Influenza"]
     weekly_ch = weekly_ch[["StartReportingPeriod", "CH"]].rename(columns={"StartReportingPeriod": "Date", "CH": "Weekly_Cases"})
@@ -117,7 +129,7 @@ def plot_weekly_cases(data_set2_incidence_weekly):
     source = ColumnDataSource(weekly_ch)
 
     p = figure(title="Weekly Influenza Cases in Switzerland (1956–1958)",
-               x_axis_type="datetime", width=900, height=400,
+               x_axis_type="datetime", width=950, height=550,
                x_axis_label="Year", y_axis_label="Weekly Cases",
                tools="pan,wheel_zoom,box_zoom,reset,hover,save")
 
@@ -129,14 +141,19 @@ def plot_weekly_cases(data_set2_incidence_weekly):
 
     p.xaxis.formatter = DatetimeTickFormatter(years="%Y", months="%b %Y")
     p.yaxis.formatter = NumeralTickFormatter(format="0,0")
+    p.xaxis.formatter = DatetimeTickFormatter(years="%Y", months="%b %Y")
+    p.yaxis.formatter = NumeralTickFormatter(format="0,0")
+    p.legend.location = "top_left"
+    p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     return p
 
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool
-from bokeh.models.formatters import DatetimeTickFormatter, NumeralTickFormatter
-from bokeh.palettes import PuBu, BuPu
-import pandas as pd
+
 
 def plot_monthly_cases_and_deaths(data_set2_incidence_weekly, data_set2_mortality):
     # --- Prepare monthly influenza cases ---
@@ -179,7 +196,7 @@ def plot_monthly_cases_and_deaths(data_set2_incidence_weekly, data_set2_mortalit
 
     # --- Bokeh plot ---
     p = figure(title="Monthly Influenza Cases and Deaths in Switzerland (1957–1958)",
-               x_axis_type="datetime", width=900, height=450,
+               x_axis_type="datetime", width=950, height=550,
                x_axis_label="Year", y_axis_label="Count",
                tools="pan,wheel_zoom,box_zoom,reset,hover,save")
 
@@ -199,7 +216,6 @@ def plot_monthly_cases_and_deaths(data_set2_incidence_weekly, data_set2_mortalit
     hover.formatters = {'@Date': 'datetime'}
     hover.mode = 'vline'
 
-    # --- Format axes and legend ---
     p.xaxis.formatter = DatetimeTickFormatter(years="%Y")
     p.yaxis.formatter = NumeralTickFormatter(format="0,0")
     p.legend.location = "top_left"
