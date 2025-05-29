@@ -1,6 +1,7 @@
 # plots/plot_pandemic_history.py
 
 import matplotlib.pyplot as plt
+import os 
 from bokeh.plotting import figure
 from bokeh.models import HoverTool, ColumnDataSource
 from bokeh.models import Title
@@ -27,9 +28,9 @@ def pandemic_death_rate_barplot(data_set1):
     pandemic_years = [1889, 1918, 1957, 1968, 2009, 2020]  # Major pandemic years
     pandemic_data = data_set1[data_set1['Jahr'].isin(pandemic_years)].copy()
 
-    # Erstelle eine neue Spalte für die Todesfälle pro Pandemie
+    
     pandemic_data['Todesfälle_100000'] = pandemic_data['Todesfälle_Grippe_100000'].fillna(0)
-    # Ersetze COVID-Werte für 2020
+    
     pandemic_data.loc[pandemic_data['Jahr'] == 2020, 'Todesfälle_100000'] = pandemic_data.loc[pandemic_data['Jahr'] == 2020, 'Todesfälle_Covid_100000'].fillna(0)
 
     # Create the figure and axis
@@ -39,7 +40,7 @@ def pandemic_death_rate_barplot(data_set1):
     bar_width = 0.6
     index = np.arange(len(pandemic_years))
 
-    # Erstelle eine Farbliste (alle blau außer COVID in orange)
+    
     colors = [PuBu[6][1], PuBu[6][1], PuBu[6][1], PuBu[6][1], PuBu[6][1], BuPu[7][2]]
 
 
@@ -49,7 +50,7 @@ def pandemic_death_rate_barplot(data_set1):
 
     # Add labels, title
     ax.set_ylabel('Deaths per 100,000 Population', fontsize=12)
-    ax.set_title('Comparison of Major Pandemic Death Rates', fontsize=20)
+    ax.set_title('Comparison of Major Pandemic Death Rates', fontsize=14)
 
     # Add pandemic names with years directly in the x-tick labels
     pandemic_names_with_years = ["Russian Flu (1889)", "Spanish Flu (1918)", "Asian Flu (1957)", 
@@ -67,7 +68,7 @@ def pandemic_death_rate_barplot(data_set1):
                     xy=(bar.get_x() + bar.get_width() / 2, height),
                     ha='center', va='bottom')
 
-    # Füge eine Legende hinzu
+   
     from matplotlib.patches import Patch
     legend_elements = [
         Patch(facecolor=PuBu[6][1], alpha =0.8, label='Historical Pandemics'),
@@ -77,6 +78,11 @@ def pandemic_death_rate_barplot(data_set1):
 
     # Adjust layout
     plt.tight_layout()
+
+    save_path = os.path.join(os.path.dirname(__file__), 'save_figures', 'pandemic_death_rate_barplot.png')
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    fig.savefig(save_path, dpi=300)
+
     return fig
 
 
@@ -97,7 +103,7 @@ def plot_mortality_vs_population(data_set1):
 
     p = figure(
         title="Pandemic Mortality vs. Population Growth (1889-2020)",
-        height=600,
+        height=550,
         width=950,
         x_axis_label="Year",
         y_axis_label="Population",
@@ -170,13 +176,15 @@ def plot_mortality_vs_population(data_set1):
     ]
     p.add_tools(*tools)
 
-    # Legende und Styling
+    # Legend and styling
     p.legend.location = "top_left"
     p.legend.click_policy = "hide"
     p.legend.background_fill_alpha = 0.7
 
     p.title.text_font_size = '14pt'
     p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     p.grid.grid_line_alpha = 0.3
 
@@ -184,7 +192,7 @@ def plot_mortality_vs_population(data_set1):
 
 
 
-## doesn't work
+
 def plot_covid_death(data_covid):
     # Filter for Switzerland
     switzerland_data = data_covid[data_covid['location'] == 'Switzerland'].copy()
@@ -194,23 +202,23 @@ def plot_covid_death(data_covid):
     # Get end-of-year totals for new_deaths instead of total_cases
     yearly_data = switzerland_data.groupby('year').agg({'new_deaths': 'max'}).reset_index()
 
-    # --- Plot Design-Stil anpassen ---
+    
     fig, ax = plt.subplots(figsize=(12, 7))
 
-    # Linie mit Marker
+   
     ax.plot(yearly_data['year'], yearly_data['new_deaths'],
             marker='o', markersize=10, linewidth=2.5,
             color=BuPu[7][2])  
 
-    # Werte beschriften UNTER den Punkten
+    
     for x, y in zip(yearly_data['year'], yearly_data['new_deaths']):
         # Format the number with comma separators
         ax.text(x, y - (yearly_data['new_deaths'].max() * 0.05),
                 f'{int(y):,}', ha='center', va='top', fontsize=11)
 
-    ax.set_title('COVID-19 New Deaths in Switzerland by Year', fontsize=20)
-    ax.set_xlabel('Year', fontsize=12)
-    ax.set_ylabel('New Deaths', fontsize=12)
+    ax.set_title('COVID-19 New Deaths in Switzerland by Year', fontsize=14)
+    ax.set_xlabel('Year', fontsize=10)
+    ax.set_ylabel('New Deaths', fontsize=10)
 
     # Format x-axis to use integers only (no decimal places)
     ax.xaxis.set_major_locator(plt.matplotlib.ticker.MaxNLocator(integer=True))
@@ -222,8 +230,13 @@ def plot_covid_death(data_covid):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
 
-    # Layout justieren
+    # Layout 
     plt.tight_layout()
+   
+    save_path = os.path.join(os.path.dirname(__file__), 'save_figures', 'plot_covid_death.png')
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    fig.savefig(save_path, dpi=300)
+
     return fig
 
 
@@ -255,7 +268,7 @@ def plot_excess_mortality(data_set1, pandemic_years=None):
     # Create the figure
     p = figure(
         title="Excess Mortality in Switzerland (1880–2022)",
-        height=600,
+        height=550,
         width=950,
         x_axis_label="Year",
         y_axis_label="Excess Mortality (%)",
@@ -307,7 +320,7 @@ def plot_excess_mortality(data_set1, pandemic_years=None):
     # Legend styling
     p.legend.location = "top_right"
     p.legend.title = "Legend"
-    p.legend.label_text_font_size = '10pt'
+    p.legend.label_text_font_size = '14pt'
     p.legend.title_text_font_style = 'bold'
     p.legend.background_fill_alpha = 0.6
 

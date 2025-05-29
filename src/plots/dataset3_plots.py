@@ -66,6 +66,11 @@ def plot_major_causes_over_time(df):
     p.add_tools(hover)
     p.legend.location = "top_left"
     p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     return p
 
@@ -111,7 +116,7 @@ def plot_year_comparison_barplot(df):
     comparison_df = get_comparison(year_a, year_b)
     source = ColumnDataSource(comparison_df)
 
-    p = figure(y_range=comparison_df['Cause'], height=400, width=800,
+    p = figure(y_range=comparison_df['Cause'], height=550, width=950,
                title=f"Causes of Death: {year_a} vs {year_b}",
                x_axis_label="Number of Deaths", toolbar_location=None)
 
@@ -122,6 +127,11 @@ def plot_year_comparison_barplot(df):
            source=source, color=BuPu[7][2], alpha=0.8, legend_label='Year B')
     p.legend.location = "bottom_right"
     p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     select_a = Select(title="Select Year A", value=str(year_a), options=[str(y) for y in years])
     select_b = Select(title="Select Year B", value=str(year_b), options=[str(y) for y in years])
@@ -217,8 +227,14 @@ def plot_infectious_diseases(infectdata: pd.DataFrame):
         tooltips=[("Year", "@Year")] + [(label_map.get(col, col), f"@{{{col}}}") for col in infectious_cols],
         mode="vline"
     )
+   
     p.legend.location = "top_right"
     p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
 
     return p
     
