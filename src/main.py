@@ -191,15 +191,17 @@ with tab2:
     streamlit_bokeh(fig2_1_1, use_container_width=False, key="plot2_1_1")
 
     st.markdown("""
-    Key takeaways:
+    **Key takeaways from the visualization below:**
 
     - Flu death spikes are clearly visible in winters of 1953, 1956, and 1957/58.
     - The 1957/58 peak matches the timing of the global Asian Flu pandemic (H2N2).
     - Total mortality remains mostly stable, but seasonal fluctuations include hidden flu effects.
     - Context matters: cold winters, aging populations, and coexisting illnesses all influence death patterns.
 
-    Note: Data from September to December 1958 is incomplete. This analysis includes only the fully documented period from January 1953 to August 1958.            
-    
+    *Note:*
+
+    - All charts and data refer to Switzerland between 1953 and 1958.
+    - Data from September to December 1958 is incomplete. This analysis includes only the fully documented period from January 1953 to August 1958.
     
     The plot shows how flu deaths (purple) compare to total deaths (blue) over time. You can see that flu rarely dominates, but it spikes sharply in some winters.
     In most months, flu caused less than 1% of all deaths. But during major outbreaks, such as winter 1957/58, flu accounted for over 10% of monthly deaths.
@@ -230,19 +232,20 @@ with tab2:
     st.subheader("2.2 The 1957 Flu Pandemic in Switzerland: A Sharp Spike in Infections, But Mortality Stayed Low")
     
     st.markdown("""
-    In the fall of 1957, a new influenza strain H2N2, also known as the Asian Flu, reached Switzerland. By October, health officials were recording over 30,000 flu cases per week, as shown in the first chart below. This was an unprecedented surge.
+    In the fall of 1957, a new influenza strain — H2N2, also known as the Asian Flu — reached Switzerland. By October, health officials were recording over 30,000 flu cases per week, as shown in the first chart below. This was an unprecedented surge.
+
     However, something interesting happened: deaths didn’t rise as dramatically as expected. While cases skyrocketed, monthly flu deaths peaked at fewer than 500 — high, but relatively small considering the size of the outbreak.
 
     Why were there so many infections, but relatively few deaths?
 
-    - Low fatality rate: H2N2 was highly contagious, but less deadly (only about 0.1–0.3% of those infected died).
+    - Lower severity: H2N2 spread rapidly, but caused fewer severe cases and deaths compared to earlier pandemics.
     - Younger population: Switzerland’s population in the 1950s was younger, meaning fewer high-risk elderly people.
     - Antibiotics: These were more widely available to treat deadly complications like pneumonia.
     - Better preparedness: Hospitals and health systems had improved significantly since earlier pandemics.
     - Vaccination: Some early flu vaccines were already in use, helping to reduce severity, even if they didn’t prevent all infections.
 
-    Result: A massive wave of infection, but mortality stayed lower than in earlier pandemics.
-
+    **Result:** A massive wave of infection, but mortality stayed lower than in earlier pandemics.
+    
     """)
 
     fig2_2_1 = plot_weekly_cases(data_set2_incidence_weekly)
@@ -258,7 +261,7 @@ with tab2:
     st.markdown("""
     This comparison makes the gap visible: while infections exploded, deaths remained relatively moderate. The purple dots (deaths) stay low, even during the peak of the blue line (cases).
     
-    Why this matters:
+    **Why this matters:**
     This example illustrates that not all flu outbreaks are equally deadly. The scale of infection doesn’t always predict the scale of death. But the strain on healthcare systems, the risk to vulnerable people, and the potential for rapid spread all remain serious concerns.
 
     ➤ Lesson: A pandemic doesn’t have to be "high-fatality" to be high-impact.
@@ -269,28 +272,41 @@ with tab2:
 
 
     st.markdown("""
-    #### Sources:
-    **1. CDC – Pandemic Influenza Past**
-    Overview of past influenza pandemics, including 1957.
-    https://www.cdc.gov/bird-flu/avian-timeline/1880-1959.html , https://www.cdc.gov/pandemic-flu/index.html , https://archive.cdc.gov/www_cdc_gov/flu/pandemic-resources/1957-1958-pandemic.html 
+    #### Sources: Understanding the 1957 Influenza Pandemic
+                
+    **1. CDC – Pandemic Influenza (Historical Context)**
+                
+    These official resources from the Centers for Disease Control and Prevention (CDC) provide an overview of past influenza pandemics — including the 1957 H2N2 "Asian Flu" — as well as basic facts about pandemic influenza viruses, their origins, and public health impact.
+    While the focus is primarily on the United States, the virological and epidemiological information helps contextualize the virus’s behavior and spread globally — including its arrival and effects in Switzerland.
+    ➤[CDC Pandemic Overview (1957–1958)](https://archive.cdc.gov/www_cdc_gov/flu/pandemic-resources/1957-1958-pandemic.html) 
+    ➤[CDC Pandemic Flu Basics](https://www.cdc.gov/pandemic-flu/basics/index.html)
+    ➤[CDC Pandemic Flu Portal](https://www.cdc.gov/pandemic-flu/index.html)
+    ➤[Timeline of Avian Influenza (1880–1959)](https://www.cdc.gov/bird-flu/avian-timeline/1880-1959.html) 
+    
+    **2. WHO – 1957–1958 Influenza Pandemic in the USSR**
+                
+    This historical report, published by the World Health Organization, documents the 1957 H2N2 “Asian Flu” pandemic in the USSR. While the report focuses on the Soviet Union, it offers important global context and insights into how the virus behaved. 
+    ➤[WHO: The 1957 Influenza Pandemic in the USSR (Zhdanov, 1959)](https://iris.who.int/bitstream/handle/10665/265339/PMC2537752.pdf?sequence=1)
 
-    **2. World Health Organization – A Global History of Influenza**
-    A peer-reviewed summary of historical influenza pandemics, including 1957–58 (H2N2), written by influenza expert E.D. Kilbourne.
-    WHO – 1957–1958 Influenza Pandemic https://iris.who.int/bitstream/handle/10665/265339/PMC2537752.pdf?sequence=1 
-
-    **3. Younger Populations Were Less Affected**
-    National Center for Biotechnology Information (NCBI): The Story of Influenza https://www.ncbi.nlm.nih.gov/books/NBK22148/ 
+    **3. Demographics and Age Structure in 1950s Switzerland**
+                
+    These data from the Swiss Federal Statistical Office (BFS) show that Switzerland had a relatively young population structure in the early 1950s. This likely contributed to lower overall mortality during the 1957 pandemic, as younger populations were less vulnerable to severe outcomes.
+    The NCBI report supports this, noting that age distribution plays a key role in pandemic impact, with risk varying across age groups in each major outbreak.
+    ➤[BFS – Swiss Population Structure, 1950](https://www.bfs.admin.ch/asset/de/27225422)
+    ➤[NCBI – The Story of Influenza](https://www.ncbi.nlm.nih.gov/books/NBK22148/)
 
     **4. Better Medical Care & Antibiotics**
-    Centers for Disease Control and Prevention (CDC): Bacterial Pneumonia and Pandemic Influenza Planning https://wwwnc.cdc.gov/eid/article/14/8/07-0751_article 
-    National Center for Biotechnology Information (NCBI):https://pmc.ncbi.nlm.nih.gov/articles/PMC2599911/ 
+                
+    Studies show that many deaths during past pandemics — especially in 1918 and partly in 1957 — were caused by bacterial pneumonia, not the virus itself. By the 1950s, antibiotics were available, likely helping to reduce deaths in countries like Switzerland.
+    ➤ [CDC – Bacterial Pneumonia & Influenza Planning](https://wwwnc.cdc.gov/eid/article/14/8/07-0751_article)
+    ➤ [NCBI – Bacterial Pneumonia in Pandemic Influenza](https://pmc.ncbi.nlm.nih.gov/articles/PMC2599911/)
 
-    **5. Vaccination Campaigns Had Already Started**
-    CDC Museum: Influenza Vaccine Roll Out https://cdcmuseum.org/exhibits/show/influenza/1957-pandemic/vaccine-rollout 
-
-    World Health Organization (WHO): History of Influenza Vaccination
-    https://www.who.int/news-room/spotlight/history-of-vaccination/history-of-influenza-vaccination 
-
+    **5. WHO – Vaccination and Influenza Prevention**
+                
+    The World Health Organization (WHO) outlines the critical role of vaccines in reducing illness and death from influenza and other infectious diseases. 
+    ➤ [WHO – Vaccines and Immunization](https://www.who.int/europe/health-topics/vaccines-and-immunization#tab=tab_1)
+    ➤ [WHO – History of Influenza Vaccination](https://www.who.int/news-room/spotlight/history-of-vaccination/history-of-influenza-vaccination) 
+   
     """) 
 
 with tab3:
