@@ -12,43 +12,80 @@ from bokeh.palettes import PuBu, BuPu
 import pandas as pd
 
 
+
 def plot_deaths_comparison(data_set2_mortality):
-    data_set2_mortality["Parameter"] = data_set2_mortality["Parameter"].str.strip().str.lower()
-    data_set2_mortality["Parameter"] = data_set2_mortality["Parameter"].replace({
+    
+    df = data_set2_mortality.copy()
+
+    
+    df["Parameter"] = df["Parameter"].astype(str).str.strip().str.lower()
+    df["Month"] = df["Month"].astype(str).str.strip().str.lower()
+
+    
+    df["Parameter"] = df["Parameter"].replace({
         "deaths total": "deaths total",
         "total deaths": "deaths total",
         "total death": "deaths total"
     })
 
+    
     month_map = {
         'january': 1, 'february': 2, 'march': 3, 'april': 4,
         'may': 5, 'june': 6, 'july': 7, 'august': 8,
         'september': 9, 'october': 10, 'november': 11, 'december': 12
     }
-    data_set2_mortality["Month"] = data_set2_mortality["Month"].str.strip().str.lower().map(month_map)
+    df["Month"] = df["Month"].map(month_map)
 
-    influenza_ch = data_set2_mortality[data_set2_mortality["Parameter"] == "deaths influenza"][["Year", "Month", "CH"]]
-    total_ch = data_set2_mortality[data_set2_mortality["Parameter"] == "deaths total"][["Year", "Month", "CH"]]
+   
+    influenza_ch = df[df["Parameter"] == "deaths influenza"][["Year", "Month", "CH"]]
+    total_ch = df[df["Parameter"] == "deaths total"][["Year", "Month", "CH"]]
 
+    
     comparison_df = influenza_ch.copy()
     comparison_df = comparison_df.rename(columns={"CH": "Influenza_Deaths"})
-    comparison_df["Total_Deaths"] = total_ch["CH"].values
-    comparison_df["Date"] = pd.to_datetime(dict(year=comparison_df["Year"], month=comparison_df["Month"], day=1))
-    comparison_df = comparison_df[(comparison_df["Year"] < 1958) | ((comparison_df["Year"] == 1958) & (comparison_df["Month"] <= 8))]
 
+   
+    comparison_df = comparison_df.reset_index(drop=True)
+    total_ch = total_ch.reset_index(drop=True)
+    comparison_df["Total_Deaths"] = total_ch["CH"]
+
+    
+    comparison_df["Date"] = pd.to_datetime(dict(
+        year=comparison_df["Year"],
+        month=comparison_df["Month"],
+        day=1
+    ))
+
+   
+    comparison_df = comparison_df[
+        (comparison_df["Year"] < 1958) |
+        ((comparison_df["Year"] == 1958) & (comparison_df["Month"] <= 8))
+    ]
+
+    
     source = ColumnDataSource(comparison_df)
 
-    p = figure(title="Comparison: Monthly Influenza Deaths vs. Total Deaths in Switzerland (1953–1958)",
-               x_axis_type="datetime", width=950, height=550,
-               x_axis_label="Date", y_axis_label="Number of Deaths",
-               tools="pan,wheel_zoom,box_zoom,reset,hover,save")
+    
+    p = figure(
+        title="Comparison: Monthly Influenza Deaths vs. Total Deaths in Switzerland (1953–1958)",
+        x_axis_type="datetime", width=950, height=550,
+        x_axis_label="Date", y_axis_label="Number of Deaths",
+        tools="pan,wheel_zoom,box_zoom,reset,hover,save"
+    )
 
-    p.varea(x='Date', y1=0, y2='Total_Deaths', source=source, fill_color=PuBu[7][0], fill_alpha=0.5, legend_label="Total Deaths")
-    p.varea(x='Date', y1=0, y2='Influenza_Deaths', source=source, fill_color=BuPu[7][2], fill_alpha=0.8, legend_label="Influenza Deaths")
+    
+    p.varea(x='Date', y1=0, y2='Total_Deaths', source=source,
+            fill_color=PuBu[7][0], fill_alpha=0.5, legend_label="Total Deaths")
+    p.varea(x='Date', y1=0, y2='Influenza_Deaths', source=source,
+            fill_color=BuPu[7][2], fill_alpha=0.8, legend_label="Influenza Deaths")
 
-    p.line(x='Date', y='Influenza_Deaths', source=source, line_color=BuPu[7][3], line_alpha=0.0, line_width=5)
-    p.line(x='Date', y='Total_Deaths', source=source, line_color=PuBu[7][2], line_alpha=0.0, line_width=5)
+    
+    p.line(x='Date', y='Influenza_Deaths', source=source,
+           line_color=BuPu[7][3], line_alpha=0.0, line_width=5)
+    p.line(x='Date', y='Total_Deaths', source=source,
+           line_color=PuBu[7][2], line_alpha=0.0, line_width=5)
 
+    
     hover = p.select_one(HoverTool)
     hover.tooltips = [
         ("Date", "@Date{%Y-%m}"),
@@ -58,6 +95,7 @@ def plot_deaths_comparison(data_set2_mortality):
     hover.formatters = {'@Date': 'datetime'}
     hover.mode = 'vline'
 
+   
     p.legend.location = "top_left"
     p.legend.click_policy = "hide"
     p.legend.background_fill_alpha = 0.7
@@ -65,57 +103,128 @@ def plot_deaths_comparison(data_set2_mortality):
     p.title.align = 'center'
     p.xaxis.axis_label_text_font_size = '10pt'
     p.yaxis.axis_label_text_font_size = '10pt'
-    
+
     return p
 
 
 def plot_influenza_share(data_set2_mortality):
-    # Ensure columns are treated as strings before using .str
-    data_set2_mortality["Parameter"] = data_set2_mortality["Parameter"].astype(str).str.strip().str.lower()
-    data_set2_mortality["Month"] = data_set2_mortality["Month"].astype(str).str.strip().str.lower()
 
+    df_mortality_2 = data_set2_mortality.copy()
+
+    # Normalize the parameter column
+    df_mortality_2["Parameter"] = df_mortality_2["Parameter"].str.strip().str.lower()
+    df_mortality_2["Parameter"] = df_mortality_2["Parameter"].replace({
+        "deaths total": "deaths total",
+        "total deaths": "deaths total",
+        "total death": "deaths total"
+    })
+
+    # Convert month names to numbers
     month_map = {
         'january': 1, 'february': 2, 'march': 3, 'april': 4,
         'may': 5, 'june': 6, 'july': 7, 'august': 8,
         'september': 9, 'october': 10, 'november': 11, 'december': 12
     }
-    data_set2_mortality["Month"] = data_set2_mortality["Month"].map(month_map)
+    df_mortality_2["Month"] = df_mortality_2["Month"].astype(str).str.strip().str.lower().map(month_map)
 
-    influenza_ch = data_set2_mortality[data_set2_mortality["Parameter"] == "deaths influenza"][["Year", "Month", "CH"]]
-    total_ch = data_set2_mortality[data_set2_mortality["Parameter"] == "deaths total"][["Year", "Month", "CH"]]
+    # Extract influenza and total deaths for Switzerland (CH)
+    influenza_ch_2 = df_mortality_2[df_mortality_2["Parameter"] == "deaths influenza"][["Year", "Month", "CH"]]
+    total_ch_2 = df_mortality_2[df_mortality_2["Parameter"] == "deaths total"][["Year", "Month", "CH"]]
 
-    comparison_df = influenza_ch.copy()
-    comparison_df = comparison_df.rename(columns={"CH": "Influenza_Deaths"})
-    comparison_df["Total_Deaths"] = total_ch["CH"].values
-    comparison_df["Date"] = pd.to_datetime(dict(year=comparison_df["Year"], month=comparison_df["Month"], day=1))
-    comparison_df["Influenza_Share"] = comparison_df["Influenza_Deaths"] / comparison_df["Total_Deaths"] * 100
+    # Merge by year and month
+    comparison_df_2 = influenza_ch_2.copy()
+    comparison_df_2 = comparison_df_2.rename(columns={"CH": "Influenza_Deaths"})
+    comparison_df_2["Total_Deaths"] = total_ch_2["CH"].values
 
-    source = ColumnDataSource(comparison_df)
+    # Construct date column
+    comparison_df_2["Date"] = pd.to_datetime(dict(year=comparison_df_2["Year"], month=comparison_df_2["Month"], day=1))
 
-    p = figure(title="Influenza Deaths as Share of Total Deaths (1953–1958)",
-               x_axis_type="datetime", width=950, height=550,
-               x_axis_label="Date", y_axis_label="Influenza Share (%)",
-               tools="pan,wheel_zoom,box_zoom,reset,hover,save")
+    # Keep only data until August 1958
+    comparison_df_2 = comparison_df_2[(comparison_df_2["Year"] < 1958) | ((comparison_df_2["Year"] == 1958) & (comparison_df_2["Month"] <= 8))]
+    # Calculate influenza share
+    comparison_df_2["Influenza_Share"] = comparison_df_2["Influenza_Deaths"] / comparison_df_2["Total_Deaths"] * 100
+    source = ColumnDataSource(comparison_df_2)
 
-    p.line(x='Date', y='Influenza_Share', source=source, line_width=3, color=BuPu[7][2], line_alpha=0.6)
+    # Plot setup
+    p = figure(title="Influenza Deaths as a Share of Total Deaths in Switzerland (1953–1958)",
+            x_axis_type="datetime", width=950, height=500,
+            x_axis_label="Date", y_axis_label="Influenza Share (%)",
+            tools="pan,wheel_zoom,box_zoom,reset,hover,save")
 
-    # FIXED: use scatter instead of deprecated circle()
-    p.scatter(x='Date', y='Influenza_Share', source=source, size=5, color=BuPu[7][2], marker="circle")
+    # Influenza share line with transparency
+    line = p.line(x='Date', y='Influenza_Share', source=source,
+                line_width=3, color=BuPu[7][2], line_alpha=0.6,
+                legend_label="Influenza Share (%)")
 
+    # Small monthly dots
+    dots = p.scatter(x='Date', y='Influenza_Share', source=source,
+                    size=5, color=BuPu[7][2], legend_label="Monthly Data Point")
+
+    # === Hover tool ===
     hover = p.select_one(HoverTool)
-    hover.tooltips = [("Date", "@Date{%F}"), ("Share", "@Influenza_Share{0.00}%")]
+    hover.tooltips = [
+        ("Date", "@Date{%F}"),
+        ("Influenza Share", "@Influenza_Share{0.00}%")
+    ]
     hover.formatters = {'@Date': 'datetime'}
 
-    ref_line = Span(location=5, dimension='width', line_color='gray', line_dash='dashed', line_width=2)
+    # Horizontal 5% reference line
+    ref_line = Span(location=5, dimension='width', line_color='gray',
+                    line_dash='dashed', line_width=2)
     p.add_layout(ref_line)
 
-    label = Label(x=comparison_df["Date"].iloc[5], y=5.3, text="5% Threshold", text_font_size="10pt", text_color="gray")
+    # 5% threshold label
+    label = Label(x=comparison_df_2["Date"].iloc[5], y=5.3,
+                text="5% Threshold", text_font_size="10pt", text_color="gray")
     p.add_layout(label)
 
+    # Winter shading
     for year in range(1953, 1958):
-        p.add_layout(BoxAnnotation(left=pd.Timestamp(f"{year}-12-01"),
-                                   right=pd.Timestamp(f"{year+1}-03-01"),
-                                   fill_alpha=0.1, fill_color='lightblue'))
+        winter_box = BoxAnnotation(left=pd.Timestamp(f"{year}-12-01"),
+                                    right=pd.Timestamp(f"{year+1}-03-01"),
+                                    fill_alpha=0.1, fill_color='lightblue')
+        p.add_layout(winter_box)
+
+    # First Asian flu case (Sep 9, 1957)
+    first_case_date = pd.Timestamp("1957-09-09")
+    first_case_month_val = comparison_df_2.loc[comparison_df_2["Date"] == pd.Timestamp("1957-09-01"), "Influenza_Share"].values[0]
+
+    # Asian flu dot
+    asian_source = ColumnDataSource(data=dict(
+        Date=[first_case_date],
+        Influenza_Share=[first_case_month_val]
+    ))
+    asian_dot = p.scatter(x='Date', y='Influenza_Share', source=asian_source,
+                        size=10, color=BuPu[7][0], legend_label="First case: Asian Flu (Sep 9, 1957)")
+
+    # Hover just for that dot
+    p.add_tools(HoverTool(
+        tooltips=[
+            ("Date", "@Date{%F}"),
+            ("Influenza Share", "@Influenza_Share{0.00}%"),
+            ("Note", "First case: Asian Flu")
+        ],
+        formatters={'@Date': 'datetime'},
+        mode='mouse',
+        renderers=[asian_dot]
+    ))
+
+    # Shade from first case to August 1958
+    shading = BoxAnnotation(left=first_case_date,
+                            right=pd.Timestamp("1958-08-31"),
+                            fill_alpha=0.15, fill_color=BuPu[7][0])
+    p.add_layout(shading)
+
+    # Final styling
+    p.legend.location = "top_left"
+    p.legend.click_policy = "hide"
+    p.legend.background_fill_alpha = 0.7
+    p.title.text_font_size = '14pt'
+    p.title.align = 'center'
+    p.xaxis.axis_label_text_font_size = '10pt'
+    p.yaxis.axis_label_text_font_size = '10pt'
+
+
 
     return p
 
