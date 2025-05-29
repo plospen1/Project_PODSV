@@ -278,33 +278,44 @@ with tab2:
                 
     These official resources from the Centers for Disease Control and Prevention (CDC) provide an overview of past influenza pandemics — including the 1957 H2N2 "Asian Flu" — as well as basic facts about pandemic influenza viruses, their origins, and public health impact.
     While the focus is primarily on the United States, the virological and epidemiological information helps contextualize the virus’s behavior and spread globally — including its arrival and effects in Switzerland.
+    
     ➤[CDC Pandemic Overview (1957–1958)](https://archive.cdc.gov/www_cdc_gov/flu/pandemic-resources/1957-1958-pandemic.html) 
+    
     ➤[CDC Pandemic Flu Basics](https://www.cdc.gov/pandemic-flu/basics/index.html)
+    
     ➤[CDC Pandemic Flu Portal](https://www.cdc.gov/pandemic-flu/index.html)
+    
     ➤[Timeline of Avian Influenza (1880–1959)](https://www.cdc.gov/bird-flu/avian-timeline/1880-1959.html) 
     
     **2. WHO – 1957–1958 Influenza Pandemic in the USSR**
                 
     This historical report, published by the World Health Organization, documents the 1957 H2N2 “Asian Flu” pandemic in the USSR. While the report focuses on the Soviet Union, it offers important global context and insights into how the virus behaved. 
+    
     ➤[WHO: The 1957 Influenza Pandemic in the USSR (Zhdanov, 1959)](https://iris.who.int/bitstream/handle/10665/265339/PMC2537752.pdf?sequence=1)
 
     **3. Demographics and Age Structure in 1950s Switzerland**
                 
     These data from the Swiss Federal Statistical Office (BFS) show that Switzerland had a relatively young population structure in the early 1950s. This likely contributed to lower overall mortality during the 1957 pandemic, as younger populations were less vulnerable to severe outcomes.
     The NCBI report supports this, noting that age distribution plays a key role in pandemic impact, with risk varying across age groups in each major outbreak.
+    
     ➤[BFS – Swiss Population Structure, 1950](https://www.bfs.admin.ch/asset/de/27225422)
+    
     ➤[NCBI – The Story of Influenza](https://www.ncbi.nlm.nih.gov/books/NBK22148/)
 
     **4. Better Medical Care & Antibiotics**
                 
     Studies show that many deaths during past pandemics — especially in 1918 and partly in 1957 — were caused by bacterial pneumonia, not the virus itself. By the 1950s, antibiotics were available, likely helping to reduce deaths in countries like Switzerland.
+    
     ➤ [CDC – Bacterial Pneumonia & Influenza Planning](https://wwwnc.cdc.gov/eid/article/14/8/07-0751_article)
+    
     ➤ [NCBI – Bacterial Pneumonia in Pandemic Influenza](https://pmc.ncbi.nlm.nih.gov/articles/PMC2599911/)
 
     **5. WHO – Vaccination and Influenza Prevention**
                 
     The World Health Organization (WHO) outlines the critical role of vaccines in reducing illness and death from influenza and other infectious diseases. 
+    
     ➤ [WHO – Vaccines and Immunization](https://www.who.int/europe/health-topics/vaccines-and-immunization#tab=tab_1)
+    
     ➤ [WHO – History of Influenza Vaccination](https://www.who.int/news-room/spotlight/history-of-vaccination/history-of-influenza-vaccination) 
    
     """) 
