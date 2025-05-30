@@ -6,7 +6,7 @@ from bokeh.models import ColumnDataSource, HoverTool, BoxAnnotation, Span, Label
 from bokeh.palettes import BuPu, PuBu
 from bokeh.models.formatters import DatetimeTickFormatter, NumeralTickFormatter
 from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models import ColumnDataSource, HoverTool, Legend
 from bokeh.models.formatters import DatetimeTickFormatter, NumeralTickFormatter
 from bokeh.palettes import PuBu, BuPu
 import pandas as pd
@@ -216,9 +216,17 @@ def plot_influenza_share(data_set2_mortality):
     p.add_layout(shading)
 
     # Final styling
-    p.legend.location = "top_left"
+    p.legend.visible = False
+    legend = Legend(items=p.legend.items,
+                    location=(80, 300))  
+    legend.orientation = "vertical"
+    legend.label_text_font_size = "9pt"
+    legend.background_fill_alpha = 0.5
+    legend.padding = 5
+    legend.spacing = 5
+    legend.margin = 0
+    p.add_layout(legend)
     p.legend.click_policy = "hide"
-    p.legend.background_fill_alpha = 0.7
     p.title.text_font_size = '14pt'
     p.title.align = 'center'
     p.xaxis.axis_label_text_font_size = '10pt'

@@ -121,7 +121,7 @@ with tab1:
     st.markdown("""
     #### Time, Population, and Mortality: The Bigger Picture
     Pandemic impact doesn’t occur in isolation—it happens in the context of a growing society. To understand the broader picture, we plotted pandemic death rates alongside population growth over more than a century.
-    **Tip:** Hover over the lines in the chart to explore each year. You’ll see how many people lived in Switzerland, and how many died from influenza or COVID-19 during that time.  
+    **Tip:** Hover over the lines in the chart to explore each year. You’ll see how many people lived in Switzerland, and how many died from influenza or COVID-19 during that time. The vertical dashed lines mark the timing of major pandemics, we showed you earlier. 
     """)
     
     fig1_2 = plot_mortality_vs_population(data_set1)
@@ -129,7 +129,7 @@ with tab1:
     streamlit_bokeh(fig1_2, use_container_width=False, key="plot2")
 
     st.markdown("""
-    >“A growing population does not automatically mean higher mortality—if health systems adapt. Still, sharp spikes in 1918 and 2020 show that even modern nations remain vulnerable when overwhelmed.”
+    >“A growing population does not automatically mean higher mortality—if health systems adapt.”
 
     #### Key Findings:
     - Switzerland's population grew from under 3 million in 1880 to over 8 million by 2022.
