@@ -1,4 +1,3 @@
-python
 bokeh
 matplotlib
 notebook
