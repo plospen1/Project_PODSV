@@ -84,7 +84,7 @@ We use three core datasets:
 
 
 # TABS
-tab1, tab2, tab3 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death"])
+tab1, tab2, tab3, tab4 = st.tabs(["History of the pandemic", "Influenca in Switzerland", "Causes of Death", "Conclusion"])
 
 
 with tab1:
@@ -475,3 +475,20 @@ with tab3:
 
 
 """)
+    
+
+with tab4:
+    st.markdown("""
+
+    ### Final Thoughts: A Story of Collective Resilience
+
+    From the deadly waves of influenza in the early 20th century to the unprecedented disruption of COVID-19, Switzerland’s pandemic history is one of both hardship and hope.
+
+    But this is not just a story of disease.
+
+    It’s a story of people of those who fought, adapted, cared, informed, and endured.  
+    **The true heroes are not in the data alone, but in the collective response.**
+
+    By learning from the past, honoring those who came before us, and investing in science, solidarity, and preparedness, we carry forward the most powerful legacy of all:  
+    > **The ability to protect each other.**
+    """)
