@@ -82,8 +82,6 @@ We use three core datasets:
 - Dataset 2: Canton-level details from the 1950s (cases, deaths, population)
 - Dataset 3: Causes of death in Switzerland from 1876–2002
 
-
----
 """)
 
 
