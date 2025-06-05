@@ -22,7 +22,7 @@ Once the environment is created, activate it using:
 4. Install Additional Packages:
 Because streamlit-bokeh can not be installed with anaconda, we have to install it with pip.
 
-In the activatet env insert:
+In the activated env insert:
 
 `pip install streamlit-bokeh`
 
