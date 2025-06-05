@@ -57,14 +57,19 @@ st.markdown("""
 ### Project Overview
 
 Welcome to our data story on **the history of pandemics in Switzerland**.  
-This project dives deep into how past pandemics unfolded across the country,  
-and what we can learn from them today.
+This project looks at how pandemics have affected Switzerland over the last 140 years. By using historical 
+data on deaths and diseases, we want to learn what past pandemics can teach us about being better prepared in the future.
 
 We explore:
-- The spread and intensity of influenza and other pandemics
-- Mortality, morbidity, and excess death trends
-- Geographic distribution and regional impacts across Swiss cantons
-- Causes of death and shifts in epidemiology over time
+- How do past pandemics compare to COVID-19?
+
+- How have mortality and causes of death changed over time?
+
+- What was the impact of influenza outbreaks like the 1957 Asian Flu?
+
+- What patterns repeat across pandemics?
+
+- What can history teach us about future preparedness?
 
 
 ### Data & Visualizations
@@ -480,15 +485,19 @@ with tab3:
 with tab4:
     st.markdown("""
 
-    ### Final Thoughts: A Story of Collective Resilience
+    ### A Story of Collective Resilience
 
-    From the deadly waves of influenza in the early 20th century to the unprecedented disruption of COVID-19, Switzerland’s pandemic history is one of both hardship and hope.
+    From the deadly waves of influenza in the early 20th century to the unprecedented disruption of COVID-19, Switzerland has faced repeated challenges and responded with resilience.
 
     But this is not just a story of disease.
 
-    It’s a story of people of those who fought, adapted, cared, informed, and endured.  
-    **The true heroes are not in the data alone, but in the collective response.**
+    It is a story of people of those who fought, adapted, cared, informed, and endured.  
 
-    By learning from the past, honoring those who came before us, and investing in science, solidarity, and preparedness, we carry forward the most powerful legacy of all:  
-    > **The ability to protect each other.**
+    Our data story shows that:
+    - **Pandemics leave lasting marks**, not just in death counts, but in how societies evolve.
+    - **Historical patterns repeat**, but so do opportunities to act earlier and smarter.
+    - **Preparedness is not just technical: it is social.** 
+
+    By learning from past pandemics, we can shape a future that is not only better prepared—but more compassionate.
+    > **Understanding the past is a vital step in protecting each other.**
     """)
