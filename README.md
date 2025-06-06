@@ -1,5 +1,19 @@
 ## Read Me
 
+### Overview 
+
+This project contains three folders:
+- Data: All the data needed for the visualizations
+- Documents: The personas, the concept and the data report
+- src:
+  main.py: Streamlit app with plots and text
+  utils.py: Data cleaning utilities
+  data_visualisation.ipynb: **NOT IMPORTANT**. First draft before we used streamlit. We decided not to delete it since we mainly worked in this file early on, so the commit history remains understandable.
+  - plots( folder): these are the methods for the plots we used in the main.py. 
+    dataset1_plots.py
+    dataset2_plots.py
+    dataset3_plots.py
+
 ### How to Set Up and Run the Streamlit App
 
 
