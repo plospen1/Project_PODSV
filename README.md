@@ -49,10 +49,7 @@ To start the Streamlit app, run the following command inside the project directo
 --> This will launch the app in your browser! 
 
 
-
-
-
 More information about the env: https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) :
  
  
- 
+Note: AI (OpenAi, 2025) was used as support for code and text. 
