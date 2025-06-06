@@ -1,6 +1,12 @@
 ## Read Me
 
-### Overview 
+### Repository
+This repository serves as the central storage location for all documents related to this project.
+All files have been organized and archived here to ensure transparency. 
+https://github.com/plospen1/Project_PODSV.git
+
+
+### Overview  
 
 This project contains three folders:
 - Data: All the data needed for the visualizations
@@ -20,6 +26,7 @@ This project contains three folders:
 1. Navigate to the Project Folder
 
 Open your terminal and move into the project's root directory. For example:
+
 cd /Users/xenia/Documents/studium/SS25/PODSV/Project_PODSV
 
 2. Create the Conda Environment
@@ -49,7 +56,7 @@ To start the Streamlit app, run the following command inside the project directo
 --> This will launch the app in your browser! 
 
 
-More information about the env: https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) :
+More information about the env: https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
  
  
 Note: AI (OpenAi, 2025) was used as support for code and text. 
